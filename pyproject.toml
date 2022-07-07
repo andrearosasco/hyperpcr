@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "hyperpcr"
+packages = [
+    {include = "pcr"}
+]
+version = "0.2.5"
+description = "Point Cloud Reconstruction with HyperNetwork"
+authors = ["andrearosasco <andrea.rosasco@iit.it>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+# numpy = "^1.23.0"
+# timm = "^0.5.4"
+# pytorch-lightning = "^1.6.4"
+# wandb = "^0.12.20"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
