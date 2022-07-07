@@ -5,10 +5,10 @@ from pcr.pcn_training_config import Config
 
 
 class Decoder:
-    def __init__(self, sdf, num_points, thr, itr):
-        self.num_points = num_points
-        self.thr = thr
-        self.itr = itr
+    def __init__(self, sdf, config):
+        self.num_points = config.num_points
+        self.thr = config.thr
+        self.itr = config.itr
 
         self.sdf = sdf
 

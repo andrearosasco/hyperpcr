@@ -11,10 +11,10 @@ class PCRNetwork(pl.LightningModule, ABC):
         super().__init__()
         self.backbone = BackBone(config)
         self.sdf = ImplicitFunction(config)
-        self.decoder = Decoder(self.sdf, 8192*2, 0.7, 20)
+        self.decoder = Decoder(self.sdf, config.Decoder)
 
-    def forward(self, partial, object_id=None, step=0.01):
+    def forward(self, partial):
         fast_weights, _ = self.backbone(partial)
-        pc, _ = self.decoder(fast_weights)
+        reconstruction, probabilities = self.decoder(fast_weights)
 
-        return pc
+        return reconstruction, probabilities

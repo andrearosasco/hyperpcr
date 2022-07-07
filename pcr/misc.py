@@ -1,8 +1,9 @@
 import requests
-# import torch
-# import os
-# import wandb
-# from pathlib import Path
+import torch
+import os
+import wandb
+from pathlib import Path
+from rich.progress import track
 
 
 def onnx_minimum(x1, x2):
@@ -39,32 +40,23 @@ def fp_sampling(points, num: int):
 #         wandb.finish(exit_code=0)
 #
 #     return ckpt_path
-#
-#
-# import requests
 
-def download_checkpoint(id, destination):
-    URL = f'https://drive.google.com/u/0/uc?id={id}&export=download'
 
-    session = requests.Session()
+def download_checkpoint(name):
+    url = f'https://github.com/andrearosasco/hyperpcr/raw/main/checkpoints/{name}'
 
-    response = session.get(URL, stream = True)
+    dir = Path('./checkpoints')
+    if not dir.exists():
+        dir.mkdir()
 
-    token = None
-    for key, value in response.cookies.items():
-        if key.startswith('download_warning'):
-            token = value
-            break
+    if not (dir / name).exists():
 
-    if token:
-        params = { 'id' : id, 'confirm' : token }
-        response = session.get(URL, params = params, stream = True)
+        r = requests.get(url)
+        l = int(requests.get(url, stream=True).headers['Content-length']) / 1024
+        with (dir / name).open('wb') as f:
+            for chunk in track(r.iter_content(chunk_size=1024), total=l, description='Downloading chekpoint...'):
+                if chunk:  # filter out keep-alive new chunks
+                    f.write(chunk)
 
-    CHUNK_SIZE = 32768
-    with open(destination, "wb") as f:
-        for chunk in response.iter_content(CHUNK_SIZE):
-            if chunk:  # filter out keep-alive new chunks
-                f.write(chunk)
+    return (dir / name).as_posix()
 
-if __name__ == '__main__':
-    download_checkpoint('1vAxN2MF7sWayeG1uvh2Jc6Gr4WHkCX6X', './checkpoint')

@@ -3,7 +3,7 @@ name = "hyperpcr"
 packages = [
     {include = "pcr"}
 ]
-version = "0.2.5"
+version = "0.2.7"
 description = "Point Cloud Reconstruction with HyperNetwork"
 authors = ["andrearosasco <andrea.rosasco@iit.it>"]
 
