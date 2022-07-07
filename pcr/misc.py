@@ -40,23 +40,37 @@ def fp_sampling(points, num: int):
 #         wandb.finish(exit_code=0)
 #
 #     return ckpt_path
+def download(url, dir, name):
+    dir = Path(dir)
+    file_path = dir / name
+    full_url = f'{url}/{file_path.as_posix()}'
 
-
-def download_checkpoint(name):
-    url = f'https://github.com/andrearosasco/hyperpcr/raw/main/checkpoints/{name}'
-
-    dir = Path('./checkpoints')
     if not dir.exists():
         dir.mkdir()
 
-    if not (dir / name).exists():
+    if not file_path.exists():
 
-        r = requests.get(url)
-        l = int(requests.get(url, stream=True).headers['Content-length']) / 1024
-        with (dir / name).open('wb') as f:
+        r = requests.get(full_url, stream=False)
+        l = int(r.headers['Content-length']) / 1024
+
+        with file_path.open('wb') as f:
             for chunk in track(r.iter_content(chunk_size=1024), total=l, description='Downloading chekpoint...'):
                 if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
 
-    return (dir / name).as_posix()
+    return file_path.as_posix()
+
+
+def download_checkpoint(name):
+    url = f'https://github.com/andrearosasco/hyperpcr/raw/main'
+    dir = 'checkpoints'
+
+    return download(url, dir, name)
+
+
+def download_asset(name):
+    url = f'https://github.com/andrearosasco/hyperpcr/raw/main'
+    dir = 'assets'
+
+    return download(url, dir, name)
 
