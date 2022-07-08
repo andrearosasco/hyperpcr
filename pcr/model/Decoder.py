@@ -1,7 +1,6 @@
 import torch
 from torch.nn import BCEWithLogitsLoss
 from torch.optim import Adam
-from pcr.pcn_training_config import Config
 
 
 class Decoder:
@@ -18,7 +17,7 @@ class Decoder:
             self.sdf.eval()
 
             batch_size = fast_weights[0][0].shape[0]
-            refined_pred = torch.tensor(torch.randn(batch_size, self.num_points, 3).cpu().detach().numpy() * 1, device=Config.General.device,
+            refined_pred = torch.tensor(torch.randn(batch_size, self.num_points, 3).cpu().detach().numpy() * 1, device=fast_weights[0][0].device,
                                         requires_grad=True)
 
             loss_function = BCEWithLogitsLoss(reduction='mean')
@@ -47,7 +46,7 @@ class Decoder:
                 optim.step()
 
         selected = [torch.cat(points).squeeze() for points in new_points]
-        res = torch.zeros([batch_size, self.num_points, 4], device=Config.General.device)
+        res = torch.zeros([batch_size, self.num_points, 4], device=fast_weights[0][0].device)
         for i, s in enumerate(selected):
             # torch.sum(torch.sum(torch.cat([s > 0.5, s < -0.5], dim=1), dim=1) != 0)
             k = min(s.size(0), self.num_points)

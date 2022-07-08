@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 try:
     from open3d.cpu.pybind.geometry import PointCloud
     from open3d.cpu.pybind.utility import Vector3dVector
@@ -7,25 +8,23 @@ try:
 except ImportError:
     visualize = False
 
-from pcr import __version__
 from pcr.model import PCRNetwork as Model
 from pcr.utils import Normalize, Denormalize
-from pcr.pcn_training_config import Config
-from pcr.misc import download_checkpoint
-import torch
+from pcr.default_config import Config
+from pcr.misc import download_checkpoint, download_asset
 
 
 def test_version():
-    assert __version__ == '0.1.0'
 
     ckpt_path = download_checkpoint(f'grasping.ckpt')
     asset_path = download_asset(f'partial_bleach_317.npy')
 
-    model = Model.load_from_checkpoint(ckpt_path, config=Config.Model)
+    model = Model(config=Config.Model)
+    model.load_state_dict(torch.load(ckpt_path)['state_dict'])
     model.cuda()
     model.eval()
 
-    partial = np.load('../pcr/data/MCD/training_data/grasp_database/avocado_poisson_000/pointclouds/_0_0_0_partial.npy')
+    partial = np.load(asset_path)
 
     partial, ctx = Normalize(Config.Processing)(partial)
 

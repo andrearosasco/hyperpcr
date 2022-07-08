@@ -1,7 +1,5 @@
 import requests
 import torch
-import os
-import wandb
 from pathlib import Path
 from rich.progress import track
 
@@ -54,7 +52,8 @@ def download(url, dir, name):
         l = int(r.headers['Content-length']) / 1024
 
         with file_path.open('wb') as f:
-            for chunk in track(r.iter_content(chunk_size=1024), total=l, description='Downloading chekpoint...'):
+            for chunk in track(r.iter_content(chunk_size=1024), total=l,
+                               description=f'Downloading {dir.as_posix()[:-1]}...'):
                 if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
 

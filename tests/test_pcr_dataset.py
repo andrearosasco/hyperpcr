@@ -7,7 +7,7 @@ from scipy.spatial.transform import Rotation
 from pcr import __version__
 from pcr.model import PCRNetwork as Model
 from pcr.utils import Normalize, Denormalize
-from pcr.pcn_training_config import Config
+from pcr.default_config import Config
 from pcr.misc import download_checkpoint
 import torch
 

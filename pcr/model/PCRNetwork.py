@@ -1,11 +1,10 @@
-from abc import ABC
+import torch
 from .Backbone import BackBone
 from .Decoder import Decoder
 from .ImplicitFunction import ImplicitFunction
-import pytorch_lightning as pl
 
 
-class PCRNetwork(pl.LightningModule, ABC):
+class PCRNetwork(torch.nn.Module):
 
     def __init__(self, config):
         super().__init__()
