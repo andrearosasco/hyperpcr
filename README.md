@@ -1,5 +1,5 @@
 This repository contains the code relative to the paper "Towards Confidence-guided Shape Completion for Robotic Applications".
-This code contain a python package that allows you to do inference with our model. If you want to look at the training code check out 
+This code contain a python package that allows you to do inference with our model. If you want to look at the training code check out [https://github.com/andrearosasco/pcr](https://github.com/andrearosasco/pcr).
 ### Installation
 To install the code run
 `pip install hyperpcr`
