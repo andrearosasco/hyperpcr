@@ -1,5 +1,5 @@
 This repository contains the code relative to the paper "Towards Confidence-guided Shape Completion for Robotic Applications".
-This code contain a python package that allows you to do inference with our model. If you want to look at the training code check out [https://github.com/andrearosasco/pcr](https://github.com/andrearosasco/pcr). If you want to reproduce the paper results clone and run the repository at [https://github.com/andrearosasco/confidence_shape_completion](https://github.com/andrearosasco/confidence_shape_completion).
+This code contain a python package that allows you to do inference with our model. If you want to look at the training and evaluation code check out [https://github.com/andrearosasco/confidence_shape_completion](https://github.com/andrearosasco/confidence_shape_completion) or https://github.com/andrearosasco/pcr/tree/mc_dropout mc_dropout branch for a messier version.
 ### Installation
 To install the code run
 `pip install hyperpcr`
